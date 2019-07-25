@@ -34,6 +34,7 @@
                     :isRoot="false"
                     :myData="child"
                     :checkBoxValue="checkBoxValue"
+                    @
                 />
             </div>
         </div>
@@ -108,8 +109,8 @@
                 this.$emit('removeNode')
             },
             handleCheckBoxChange (val) {
-                console.log('checkbox 为 ', val)
                 this.checkBoxValue = val
+                this.$emit('checkBoxChange', val)
             }
         }
     }

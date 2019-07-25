@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TreeSelector />
+    <TreeInterface />
 <!--    <div style="height: 200px;">-->
 <!--      <Test />-->
 <!--    </div>-->
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import TreeSelector from './components/TreeSelector'
+  import TreeInterface from './components/TreeInterface'
 // import HelloWorld from './components/HelloWorld.vue'
 // import Test from './components/test'
 // import TreeFolder from './components/TreeFolder'
@@ -20,7 +20,7 @@
 export default {
   name: 'app',
   components: {
-    TreeSelector
+    TreeInterface
     // HelloWorld,
     // Test,
     // TreeFolder

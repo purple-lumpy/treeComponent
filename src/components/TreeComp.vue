@@ -34,7 +34,6 @@
                     :isRoot="false"
                     :myData="child"
                     :checkBoxValue="checkBoxValue"
-                    @
                 />
             </div>
         </div>

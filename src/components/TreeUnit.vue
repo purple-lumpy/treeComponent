@@ -19,6 +19,8 @@
 </template>
 
 <script>
+    import { EventBus } from "./eventBus";
+
     export default {
         name: "TreeUnit",
         data: function () {
@@ -27,6 +29,11 @@
                 firstTimeTag: true,
                 realChecked: this.shouldCheck
             }
+        },
+        mounted () {
+            EventBus.$on('clearCheckBox', () => {
+                this.realChecked = false
+            })
         },
         methods: {
             handleOpenClick () {

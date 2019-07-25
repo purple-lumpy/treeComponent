@@ -18,6 +18,8 @@
 
 <script>
     import TreeComp from './TreeComp'
+    import { EventBus } from "./eventBus";
+
     export default {
         name: "TreeSelector",
         components: {
@@ -74,6 +76,12 @@
                 default: function () {
                     return false
                 }
+            },
+            clear: {
+                type: Boolean,
+                default: function () {
+                    return false
+                }
             }
         },
         data: function () {
@@ -83,11 +91,9 @@
         },
         computed: {
             isLeaf: function () {
-                return !this.nodesData.children || this.nodesData.children == false
+                let keys = Object.keys(this.nodesData)
+                return keys.length === 0 || !this.nodesData.children || this.nodesData.children == false
             }
-        },
-        mounted () {
-            console.log('treeSelector mounted')
         },
         methods: {
             handleAddNode () {
@@ -109,18 +115,23 @@
                     }
                     this.nodesData = {...temp}
                 }
+                EventBus.$emit('clearCheckBox')
             },
             handleRemoveNode () {
+                let par = this.nodesData.parent
+                let index = par.children.indexOf(this.nodesData)
+                par.children.splice(index,1)
                 this.nodesData = {}
+                EventBus.$emit('clearCheckBox')
             },
             handleCheckBoxChange (val) {
-                console.log('checkbox changed, value is ', val)
-                console.log('this.myData is ', this.myData)
                 let prevPath = this.findPrevPath(this.myData)
-                let leafPathes = this.findLeafPath(this.myData,prevPath)
-                console.log('prev path is ', prevPath)
-                console.log('leaf pathes r ', leafPathes)
+                let toLeafPathes = this.findLeafPath(this.myData,prevPath)
                 this.$emit('changeValue')
+                EventBus.$emit('checkBoxChanged', {
+                    type: val ? 'add': 'remove',
+                    data: toLeafPathes
+                })
             },
             findPrevPath (data) {
                 let pathes = []

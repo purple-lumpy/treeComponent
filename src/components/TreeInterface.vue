@@ -2,13 +2,14 @@
     <div>
         <TreeSelector
             :myData="treeData"
-            @changeValue="handleChangeValue"
+            :clear="clear"
         />
     </div>
 </template>
 
 <script>
     import TreeSelector from './TreeSelector'
+    import { EventBus } from "./eventBus";
 
     export default {
         name: "TreeInterface",
@@ -44,19 +45,34 @@
                                     id: '6'
                                 },
                                 {
-                                    title: 'leaf 1-2-1',
+                                    title: 'leaf 1-2-2',
                                     id: '7'
                                 }
                             ]
                         }
                     ]
-                }
+                },
+                selectedPathes: new Set(),
+                clear: false
             }
         },
         computed: {
             treeData: function () {
                 return this.addParent(this.myData, null)
             }
+        },
+        mounted () {
+            const self = this
+            EventBus.$on('checkBoxChanged', (val) => {
+                let prevPathes = self.selectedPathes
+                if (val.type === 'add') {
+                    self.selectedPathes = new Set([...prevPathes, ...val.data])
+                } else {
+                    self.selectedPathes = new Set([...prevPathes].filter(x => !(val.data).includes(x)))
+                }
+                this.$emit('changeSelect', this.selectedPathes)
+                console.log('更新选项：', this.selectedPathes)
+            })
         },
         methods: {
             addParent (data, parent) {
@@ -67,9 +83,6 @@
                     }
                 }
                 return data
-            },
-            handleChangeValue () {
-                console.log('接收到了')
             }
         }
     }

@@ -73,6 +73,11 @@
                 this.$emit('changeSelect', this.selectedPathes)
                 console.log('更新选项：', this.selectedPathes)
             })
+            EventBus.$on('clearCheckBox', () => {
+                this.selectedPathes = new Set()
+                this.$emit('changeSelect', this.selectedPathes)
+                console.log('更新选项：', this.selectedPathes)
+            })
         },
         methods: {
             addParent (data, parent) {

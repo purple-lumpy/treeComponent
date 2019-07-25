@@ -114,8 +114,11 @@
                         }]
                     }
                     this.nodesData = {...temp}
+                    this.$nextTick(function () {
+                        EventBus.$emit('clearCheckBox')
+                    })
+
                 }
-                EventBus.$emit('clearCheckBox')
             },
             handleRemoveNode () {
                 let par = this.nodesData.parent

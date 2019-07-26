@@ -119,15 +119,17 @@
                     const temp = this.nodesData
                     if (this.nodesData.children) {
                         temp.children.push({
-                            title: idTitle[1],
-                            id: idTitle[0],
-                            parent: temp
+                            title: idTitle[2],
+                            id: idTitle[1],
+                            parent: temp,
+                            children: []
                         })
                     } else {
                         temp.children = [{
-                            title: idTitle[1],
-                            id: idTitle[0],
-                            parent: temp
+                            title: idTitle[2],
+                            id: idTitle[1],
+                            parent: temp,
+                            children: []
                         }]
                     }
                     this.nodesData = {...temp}
@@ -154,7 +156,6 @@
                 })
             },
             handleChangeNodeTitle (val) {
-                console.log('新的title 是 ', val)
                 this.nodesData.title = val
                 this.nodesData = {...this.nodesData}
             },

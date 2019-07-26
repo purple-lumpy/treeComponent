@@ -5,6 +5,7 @@ export const data = Mock.mock({
     id: '0',
     'children|10000': [{
         title: 'son',
+        children: [],
         'id|+1': 1
     }]
 });

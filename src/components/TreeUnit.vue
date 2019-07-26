@@ -25,7 +25,8 @@
 
         <input
             v-show="editTitle"
-            autofocus type="text"
+            autofocus
+            type="text"
             v-model="myTitle"
             @blur="handleInputBlur"
         />

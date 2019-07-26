@@ -93,23 +93,39 @@
             isLeaf: function () {
                 let keys = Object.keys(this.nodesData)
                 return keys.length === 0 || !this.nodesData.children || this.nodesData.children == false
+            },
+            ids: function () {
+                let wholeId = new Set()
+                for(let item of this.nodesData.children) {
+                    wholeId.add(item.id)
+                }
+                return wholeId
             }
         },
         methods: {
             handleAddNode () {
-                let title = window.prompt('输入节点的名字', '')
+                let title = window.prompt('输入id名与节点名，格式：id名#节点名', '')
                 if (title) {
+                    let idTitle = title.match(/([^#]+)#(.+)/)
+                    if (!idTitle) {
+                        window.alert('请输入正确的格式：id名#节点名')
+                        return
+                    }
+                    if (this.ids.has(idTitle[1])) {
+                        window.alert('id名与该层已有id名重复，请设置另一个id名')
+                        return
+                    }
                     const temp = this.nodesData
                     if (this.nodesData.children) {
                         temp.children.push({
-                            title,
-                            id: title,
+                            title: idTitle[1],
+                            id: idTitle[0],
                             parent: temp
                         })
                     } else {
                         temp.children = [{
-                            title,
-                            id: title,
+                            title: idTitle[1],
+                            id: idTitle[0],
                             parent: temp
                         }]
                     }

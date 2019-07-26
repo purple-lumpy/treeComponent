@@ -110,7 +110,6 @@
             },
             nodeChildren: function () {
                 // 新增节点 删除节点 处理
-                // this.showChildren = val.slice(0, this.childIndex)
                 if (!this.haveDisplayChild) {
                     this.showMore()
                 }

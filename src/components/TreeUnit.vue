@@ -8,13 +8,27 @@
         >
             &gt;
         </p>
+
         <input
-            :id="nodeId"
             type="checkbox"
             :checked="realChecked"
             @change="handleCheckChange"
         />
-        <label :for="nodeId">{{nodeTitle}}</label>
+
+        <label
+            v-show="!editTitle"
+            @dblclick="handleTitleDoubleClick"
+            title="双击更改节点名称"
+        >
+            {{myTitle}}
+        </label>
+
+        <input
+            v-show="editTitle"
+            autofocus type="text"
+            v-model="myTitle"
+            @blur="handleInputBlur"
+        />
     </div>
 </template>
 
@@ -27,7 +41,9 @@
             return {
                 shouldOpen: false,
                 firstTimeTag: true,
-                realChecked: this.shouldCheck
+                realChecked: this.shouldCheck,
+                editTitle: false,
+                myTitle: this.nodeTitle
             }
         },
         mounted () {
@@ -46,6 +62,14 @@
                     this.realChecked = val.target.checked
                     this.$emit('checkboxChange', this.realChecked)
                 })
+            },
+            handleTitleDoubleClick () {
+                this.editTitle = true
+            },
+            handleInputBlur () {
+                this.editTitle = false
+                this.$emit('changeNodeTitle', this.myTitle)
+                this.$emit('clearCheckBox')
             }
         },
         props: {

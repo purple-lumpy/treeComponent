@@ -11,6 +11,7 @@
                 @addNode="handleAddNode"
                 @removeNode="handleRemoveNode"
                 @checkboxChange="handleCheckBoxChange"
+                @changeNodeTitle="handleChangeNodeTitle"
             />
 
             <div class="operations">
@@ -136,6 +137,9 @@
             },
             handleShowMoreChildren () {
                 this.showMore()
+            },
+            handleChangeNodeTitle (val) {
+                this.$emit('changeNodeTitle', val)
             },
             showMore () {
                 const nextIndex = this.childIndex + this.onceShowNumber

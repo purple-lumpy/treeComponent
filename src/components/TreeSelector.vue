@@ -11,6 +11,7 @@
             @addNode="handleAddNode"
             @removeNode="handleRemoveNode"
             @checkBoxChange="handleCheckBoxChange"
+            @changeNodeTitle="handleChangeNodeTitle"
         >
         </TreeComp>
     </div>
@@ -152,11 +153,16 @@
                     data: toLeafPathes
                 })
             },
+            handleChangeNodeTitle (val) {
+                console.log('新的title 是 ', val)
+                this.nodesData.title = val
+                this.nodesData = {...this.nodesData}
+            },
             findPrevPath (data) {
                 let pathes = []
                 let dataFunc = data.parent
                 while (dataFunc && dataFunc.title) {
-                    pathes.push(dataFunc.title)
+                    pathes.push(dataFunc.id + '#' + dataFunc.title)
                     dataFunc = dataFunc.parent
                 }
                 return pathes.reverse().join('/')
@@ -165,9 +171,9 @@
                 let pathes = []
                 function findPath (tree, path) {
                     if (path) {
-                        path += '/' + tree.title
+                        path += '/' + tree.id + '#' + tree.title
                     } else {
-                        path += tree.title
+                        path += tree.id + '#' + tree.title
                     }
                     if (tree.children && tree.children.length !== 0) {
                         for (let item of tree.children) {

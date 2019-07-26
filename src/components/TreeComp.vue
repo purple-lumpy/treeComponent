@@ -26,15 +26,23 @@
         <div v-if="!isLeaf">
             <div
                 class="pannel"
-                :class="{open: showPannel, close: !showPannel}"
-                v-for="child in nodeChildren"
+                v-for="child in showChildren"
                 :key="child.id"
+                :class="{open: showPannel, close: !showPannel}"
             >
                 <TreeSelector
                     :isRoot="false"
                     :myData="child"
                     :checkBoxValue="checkBoxValue"
                 />
+            </div>
+            <div
+                class="show-more"
+                :class="{open: showPannel, close: !showPannel}"
+                v-show="haveDisplayChild"
+                @click="handleShowMoreChildren"
+            >
+                more
             </div>
         </div>
 
@@ -54,7 +62,11 @@
             return {
                 showPannel: false,
                 firstTimeTag: true,
-                checkBoxValue: false
+                checkBoxValue: false,
+                showChildren: [],
+                childIndex: 0,
+                onceShowNumber: 3,
+                haveDisplayChild: false
             }
         },
         props: {
@@ -95,6 +107,18 @@
         watch: {
             checkBoxStraight: function (val) {
                 this.checkBoxValue = val
+            },
+            nodeChildren: function () {
+                // 新增节点 删除节点 处理
+                // this.showChildren = val.slice(0, this.childIndex)
+                if (!this.haveDisplayChild) {
+                    this.showMore()
+                }
+            }
+        },
+        mounted () {
+            if (this.nodeChildren.length) {
+                this.showMore()
             }
         },
         methods: {
@@ -110,6 +134,19 @@
             handleCheckBoxChange (val) {
                 this.checkBoxValue = val
                 this.$emit('checkBoxChange', val)
+            },
+            handleShowMoreChildren () {
+                this.showMore()
+            },
+            showMore () {
+                const nextIndex = this.childIndex + this.onceShowNumber
+                this.showChildren = this.nodeChildren.slice(0, nextIndex)
+                this.childIndex = nextIndex
+                if (this.showChildren.length < this.nodeChildren.length) {
+                    this.haveDisplayChild = true
+                } else {
+                    this.haveDisplayChild = false
+                }
             }
         }
     }
@@ -120,9 +157,18 @@
         display: inline-block;
         margin-left: 20px;
     }
+    div.operations > button {
+        color: #515a6e;
+    }
     .pannel {
         margin: 0 0 0 15px;
         height: 50px;
+    }
+    div.show-more {
+        cursor: pointer;
+        margin-left: 25px;
+        color: #0000CD;
+        text-shadow: 0 0 2px #4682B4;
     }
     @keyframes toOpen {
         from {

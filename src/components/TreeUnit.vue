@@ -42,8 +42,10 @@
                 this.$emit('openPannel')
             },
             handleCheckChange (val) {
-                this.realChecked = val.target.checked
-                this.$emit('checkboxChange', this.realChecked)
+                this.$nextTick(function () {
+                    this.realChecked = val.target.checked
+                    this.$emit('checkboxChange', this.realChecked)
+                })
             }
         },
         props: {
@@ -83,6 +85,7 @@
         height: 30px;
         line-height: 30px;
         display: inline-block;
+        color: #515a6e;
     }
     div > .gt {
         display: inline-block;

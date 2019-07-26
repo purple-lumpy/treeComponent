@@ -129,7 +129,7 @@
             },
             handleCheckBoxChange (val) {
                 let prevPath = this.findPrevPath(this.myData)
-                let toLeafPathes = this.findLeafPath(this.myData,prevPath)
+                let toLeafPathes = this.findLeafPath(this.myData, prevPath)
                 this.$emit('changeValue')
                 EventBus.$emit('checkBoxChanged', {
                     type: val ? 'add': 'remove',
@@ -153,7 +153,7 @@
                     } else {
                         path += tree.title
                     }
-                    if (tree.children) {
+                    if (tree.children && tree.children.length !== 0) {
                         for (let item of tree.children) {
                             findPath(item, path)
                         }
